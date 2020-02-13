@@ -5,6 +5,9 @@ const json = require('koa-json');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
+const session = require('koa-generic-session');
+const redisStore = require('koa-redis');
+const { REDIS_CONFIG } = require('./config/db');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
@@ -21,6 +24,23 @@ app.use(
 app.use(json());
 app.use(logger());
 app.use(require('koa-static')(__dirname + '/public'));
+
+// session 配置
+app.keys = ['L#g*c%W@e!i&b^o'];
+app.use(
+    session({
+        key: 'lgc.sid', // cookie的key
+        prefix: 'lgc:sess:', // session的key的前缀
+        cookie: {
+            path: '/',
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000,
+        },
+        store: redisStore({
+            all: `${REDIS_CONFIG.host}:${REDIS_CONFIG.port}`,
+        }),
+    })
+);
 
 app.use(
     views(__dirname + '/views', {

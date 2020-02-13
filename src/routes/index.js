@@ -9,7 +9,17 @@ router.get('/', async (ctx, next) => {
 });
 
 router.get('/string', async (ctx, next) => {
-    ctx.body = 'koa2 string';
+    const session = ctx.session;
+    console.log(ctx.session);
+    if (!session.viewTimes && session.viewTimes !== 0) {
+        session.viewTimes = 0;
+    } else {
+        session.viewTimes++;
+    }
+    ctx.body = {
+        title: 'koa2 string',
+        viewTimes: session.viewTimes,
+    };
 });
 
 router.get('/json', async (ctx, next) => {
