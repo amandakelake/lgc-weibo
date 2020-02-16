@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon bin/www",
     "prd": "cross-env NODE_ENV=production pm2 start bin/www",
-    "test": ""
+    "test": "cross-env NODE_ENV=test jest --runInBand --forceExit --colors "
   },
   "dependencies": {
     "debug": "^4.1.1",
@@ -32,7 +32,9 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-vue": "^6.1.2",
+    "jest": "^25.1.0",
     "nodemon": "^1.19.1",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "supertest": "^4.0.2"
   }
 }
