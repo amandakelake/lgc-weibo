@@ -10,7 +10,6 @@ router.get('/', async (ctx, next) => {
 
 router.get('/string', async (ctx, next) => {
     const session = ctx.session;
-    console.log(ctx.session);
     if (!session.viewTimes && session.viewTimes !== 0) {
         session.viewTimes = 0;
     } else {

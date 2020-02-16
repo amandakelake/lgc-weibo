@@ -8,12 +8,20 @@ const logger = require('koa-logger');
 const session = require('koa-generic-session');
 const redisStore = require('koa-redis');
 const { REDIS_CONFIG } = require('./config/db');
+const { isProd } = require('./utils/env');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const errorViewRouter = require('./routes/view/error');
 
+let onerrorConf = {};
+if (isProd) {
+    onerrorConf = {
+        redirect: '/error',
+    };
+}
 // error handler
-onerror(app);
+onerror(app, onerrorConf);
 
 // middlewares -> for POST methods body data
 app.use(
@@ -51,6 +59,8 @@ app.use(
 // routes
 app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
+// 错误路由要注册在最后做兜底
+app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {

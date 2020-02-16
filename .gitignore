@@ -31,6 +31,3 @@ dump.rdb
 uploadFiles
 
 .idea
-src/learn-demo/sequelize.js
-src/public/images/
-src/public/javascripts/
