@@ -52,7 +52,7 @@ const { Blog, User } = require('./sequelize');
         userListWithBlog.rows.map(user => {
             const userVal = user.dataValues;
             // 一个用户可能有多个博客  所以user下面的字段叫blogs 而不是blog
-            userVal.blogs = userVal.blogs.map(blog => blog.dataValues)
+            userVal.blogs = userVal.blogs.map(blog => blog.dataValues);
             return userVal;
         })
     );

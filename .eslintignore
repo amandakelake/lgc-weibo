@@ -1,7 +1,10 @@
 dist/
 lib/
+test/
 node_modules/
 
 *.ts
 *.html
 *.ejs
+
+src/public
