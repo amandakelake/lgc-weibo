@@ -1,8 +1,10 @@
-/**
- * 同步
+/***
+ * 直接 node src/db/sync.js 会删除之前的表 创建当前的表结构
  */
-
 const sequelize = require('./seq');
+
+// 数据模型
+require('./model/index');
 
 // 测试连接
 sequelize

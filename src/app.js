@@ -11,24 +11,21 @@ const { REDIS_CONFIG } = require('./config/db');
 const { isProd } = require('./utils/env');
 
 const index = require('./routes/index');
-const users = require('./routes/users');
+const userViewRouter = require('./routes/view/user');
 const errorViewRouter = require('./routes/view/error');
 
 let onerrorConf = {};
 if (isProd) {
+    // 线上环境重定向到错误页，对用户更友好
+    // 生产环境，直接报错，方便开发自测
     onerrorConf = {
         redirect: '/error',
     };
 }
-// error handler
 onerror(app, onerrorConf);
 
-// middlewares -> for POST methods body data
-app.use(
-    bodyparser({
-        enableTypes: ['json', 'form', 'text'],
-    })
-);
+// for POST methods body data
+app.use(bodyparser({ enableTypes: ['json', 'form', 'text'] }));
 app.use(json());
 app.use(logger());
 app.use(require('koa-static')(__dirname + '/public'));
@@ -58,7 +55,7 @@ app.use(
 
 // routes
 app.use(index.routes(), index.allowedMethods());
-app.use(users.routes(), users.allowedMethods());
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods());
 // 错误路由要注册在最后做兜底
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods());
 
