@@ -12,6 +12,7 @@ const { isProd } = require('./utils/env');
 
 const index = require('./routes/index');
 const userViewRouter = require('./routes/view/user');
+const userApiRouter = require('./routes/api/user')
 const errorViewRouter = require('./routes/view/error');
 
 let onerrorConf = {};
@@ -56,6 +57,7 @@ app.use(
 // routes
 app.use(index.routes(), index.allowedMethods());
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods());
+app.use(userApiRouter.routes(), userApiRouter.allowedMethods());
 // 错误路由要注册在最后做兜底
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods());
 
