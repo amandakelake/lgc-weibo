@@ -9,6 +9,7 @@ const session = require('koa-generic-session');
 const redisStore = require('koa-redis');
 const { REDIS_CONFIG } = require('./config/db');
 const { isProd } = require('./utils/env');
+const { SESSION_SECRET_KEY } = require('./config/secretKeys');
 
 const index = require('./routes/index');
 const userViewRouter = require('./routes/view/user');
@@ -32,7 +33,7 @@ app.use(logger());
 app.use(require('koa-static')(__dirname + '/public'));
 
 // session 配置
-app.keys = ['L#g*c%W@e!i&b^o'];
+app.keys = [SESSION_SECRET_KEY];
 app.use(
     session({
         key: 'lgc.sid', // cookie的key

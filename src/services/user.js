@@ -1,6 +1,7 @@
 const { User } = require('../db/model/index');
 const { formatUser } = require('../services/_format');
 
+
 /***
  *
  * @param userName

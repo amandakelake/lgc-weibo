@@ -1,6 +1,7 @@
 const { getUserInfo, createUser } = require('../services/user');
 const { SuccessModel, ErrorModel } = require('../model/ResModel');
 const { registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo } = require('../model/ErrorInfo');
+const doCrypto = require('../utils/cryp');
 
 /***
  *
@@ -29,7 +30,7 @@ async function register({ userName, password, gender }) {
         return new ErrorModel(registerUserNameExistInfo);
     }
     try {
-        await createUser({ userName, password, gender });
+        await createUser({ userName, password: doCrypto(password), gender });
         return new SuccessModel();
     } catch (e) {
         // 应该有错误日志
