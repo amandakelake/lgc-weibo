@@ -12,7 +12,7 @@ const { isProd } = require('./utils/env');
 
 const index = require('./routes/index');
 const userViewRouter = require('./routes/view/user');
-const userApiRouter = require('./routes/api/user')
+const userApiRouter = require('./routes/api/user');
 const errorViewRouter = require('./routes/view/error');
 
 let onerrorConf = {};

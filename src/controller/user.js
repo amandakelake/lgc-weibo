@@ -1,7 +1,12 @@
-const { getUserInfo } = require('../services/user');
+const { getUserInfo, createUser } = require('../services/user');
 const { SuccessModel, ErrorModel } = require('../model/ResModel');
-const { registerUserNameNotExistInfo } = require('../model/ErrorInfo');
+const { registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo } = require('../model/ErrorInfo');
 
+/***
+ *
+ * @param userName
+ * @returns {Promise<ErrorModel|*|SuccessModel>}
+ */
 async function isExist(userName) {
     const userInfo = await getUserInfo(userName);
     if (userInfo) {
@@ -11,6 +16,29 @@ async function isExist(userName) {
     }
 }
 
+/***
+ *
+ * @param userName
+ * @param password
+ * @param gender 性别（1男 2女 3保密）
+ * @returns {Promise<void>}
+ */
+async function register({ userName, password, gender }) {
+    const userInfo = await getUserInfo(userName);
+    if (userInfo) {
+        return new ErrorModel(registerUserNameExistInfo);
+    }
+    try {
+        await createUser({ userName, password, gender });
+        return new SuccessModel();
+    } catch (e) {
+        // 应该有错误日志
+        console.error(e);
+        return new ErrorModel(registerFailInfo);
+    }
+}
+
 module.exports = {
     isExist,
+    register,
 };
