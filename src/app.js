@@ -56,9 +56,9 @@ app.use(
 );
 
 // routes
-app.use(index.routes(), index.allowedMethods());
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods());
 app.use(userApiRouter.routes(), userApiRouter.allowedMethods());
+app.use(index.routes(), index.allowedMethods());
 // 错误路由要注册在最后做兜底
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods());
 
