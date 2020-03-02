@@ -1,4 +1,5 @@
 const router = require('koa-router')();
+const { loginRedirect } = require('../middlewares/loginChecks');
 
 router.get('/string', async (ctx, next) => {
     const session = ctx.session;
@@ -19,11 +20,18 @@ router.get('/json', async (ctx, next) => {
     };
 });
 
-router.get('/', async (ctx, next) => {
+router.get('/', loginRedirect, async (ctx, next) => {
     // 异步读取IO 需要await
     await ctx.render('index', {
         title: 'Hello Koa 2 -> lgc-weibo!',
         msg: 'node backend project',
+        blogList: [
+            {
+                id: 1,
+                title: 'aaa',
+            },
+        ],
+        blogData: {},
     });
 });
 
