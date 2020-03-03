@@ -1,10 +1,11 @@
-const { getUserInfo, createUser } = require('../services/user');
+const { getUserInfo, createUser, deleteCurUser } = require('../services/user');
 const { SuccessModel, ErrorModel } = require('../model/ResModel');
 const {
     registerUserNameNotExistInfo,
     registerUserNameExistInfo,
     registerFailInfo,
     loginFailInfo,
+    deleteUserFailInfo,
 } = require('../model/ErrorInfo');
 const doCrypto = require('../utils/cryp');
 
@@ -64,8 +65,23 @@ async function login(ctx, userName, password) {
     return new SuccessModel();
 }
 
+/**
+ * 删除当前用户
+ * @param userName
+ * @returns {Promise<void>}
+ */
+async function deleteUser(userName) {
+    const result = await deleteCurUser(userName);
+    if (result) {
+        return new SuccessModel();
+    } else {
+        return new ErrorModel(deleteUserFailInfo);
+    }
+}
+
 module.exports = {
     isExist,
     register,
     login,
+    deleteUser,
 };
