@@ -1,4 +1,5 @@
 const router = require('koa-router')();
+const { loginRedirect } = require('../../middlewares/loginChecks');
 
 /**
  * 获取用户信息
@@ -27,8 +28,8 @@ router.get('/register', async (ctx, next) => {
     await ctx.render('register', getLoginInfo(ctx));
 });
 
-router.get('/', async ctx => {
-    await ctx.render('index');
+router.get('/setting', loginRedirect, async ctx => {
+    await ctx.render('setting', ctx.session.userInfo);
 });
 
 module.exports = router;
