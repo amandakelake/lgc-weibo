@@ -1,6 +1,6 @@
 const Koa = require('koa');
 const app = new Koa();
-const path = require('path')
+const path = require('path');
 const views = require('koa-views');
 const json = require('koa-json');
 const onerror = require('koa-onerror');
@@ -8,14 +8,14 @@ const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 const session = require('koa-generic-session');
 const redisStore = require('koa-redis');
-const koaStatic = require('koa-static')
+const koaStatic = require('koa-static');
 
 const { REDIS_CONFIG } = require('./config/db');
 const { isProd } = require('./utils/env');
 const { SESSION_SECRET_KEY } = require('./config/secretKeys');
 
 const index = require('./routes/index');
-const utilsApiRouter = require('./routes/api/utils')
+const utilsApiRouter = require('./routes/api/utils');
 const userViewRouter = require('./routes/view/user');
 const userApiRouter = require('./routes/api/user');
 const errorViewRouter = require('./routes/view/error');
