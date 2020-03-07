@@ -28,6 +28,7 @@ node_modules
 
 dump.rdb
 
+# 不提交本地上传的图片
 uploadFiles
 
 .idea

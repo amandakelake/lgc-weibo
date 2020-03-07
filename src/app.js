@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const app = new Koa();
+const path = require('path')
 const views = require('koa-views');
 const json = require('koa-json');
 const onerror = require('koa-onerror');
@@ -7,11 +8,14 @@ const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 const session = require('koa-generic-session');
 const redisStore = require('koa-redis');
+const koaStatic = require('koa-static')
+
 const { REDIS_CONFIG } = require('./config/db');
 const { isProd } = require('./utils/env');
 const { SESSION_SECRET_KEY } = require('./config/secretKeys');
 
 const index = require('./routes/index');
+const utilsApiRouter = require('./routes/api/utils')
 const userViewRouter = require('./routes/view/user');
 const userApiRouter = require('./routes/api/user');
 const errorViewRouter = require('./routes/view/error');
@@ -30,7 +34,9 @@ onerror(app, onerrorConf);
 app.use(bodyparser({ enableTypes: ['json', 'form', 'text'] }));
 app.use(json());
 app.use(logger());
-app.use(require('koa-static')(__dirname + '/public'));
+app.use(koaStatic(__dirname + '/public'));
+// TODO 图片上传到CDN
+app.use(koaStatic(path.join(__dirname, '..', 'uploadFiles'))); // 允许读取静态资源  也就是用户自己上传的图片  实际上要放cdn
 
 // session 配置
 app.keys = [SESSION_SECRET_KEY];
@@ -57,6 +63,7 @@ app.use(
 
 // routes
 app.use(index.routes(), index.allowedMethods());
+app.use(utilsApiRouter.routes(), utilsApiRouter.allowedMethods());
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods());
 app.use(userApiRouter.routes(), userApiRouter.allowedMethods());
 // 错误路由要注册在最后做兜底
