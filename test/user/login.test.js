@@ -45,10 +45,41 @@ test('登录，应该成功', async () => {
     COOKIE = res.headers['set-cookie'].join(';');
 });
 
+// 修改基本信息
+test('修改基本信息应该成功', async () => {
+    const res = await server
+        .patch('/api/user/changeInfo')
+        .send({
+            nickName: '测试昵称',
+            city: '测试城市',
+            picture: '/test.png',
+        })
+        .set('cookie', COOKIE);
+    expect(res.body.errno).toBe(0);
+});
+
+// 修改密码
+test('修改密码应该成功', async () => {
+    const res = await server
+        .patch('/api/user/changePassword')
+        .send({
+            password,
+            newPassword: `p_${Date.now()}`,
+        })
+        .set('cookie', COOKIE);
+    expect(res.body.errno).toBe(0);
+});
+
 // 注册完又删除  数据库应该是插入一条又被删掉了  如果id是递增的  再次新建一个用户  可以看到id有一位已经被用掉了
 test('删除用户自己，应该成功', async () => {
     // set cookie 为了通过loginCheck中间件
     const res = await server.post('/api/user/delete').set('cookie', COOKIE);
+    expect(res.body.errno).toBe(0);
+});
+
+// 退出
+test('退出登录应该成功', async () => {
+    const res = await server.post('/api/user/logout').set('cookie', COOKIE);
     expect(res.body.errno).toBe(0);
 });
 
