@@ -19,7 +19,7 @@ if (isProd) {
     MYSQL_CONFIG = {
         host: 'localhost',
         user: 'root',
-        password: '88888888',
+        password: 'Xiaobai0719*',
         port: '3306',
         database: 'lgc_weibo_db',
     };
