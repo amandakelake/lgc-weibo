@@ -20,6 +20,10 @@ router.get('/json', async (ctx, next) => {
     };
 });
 
+router.get('/error', async (ctx, next) => {
+    throw new Error();
+});
+
 router.get('/', loginRedirect, async (ctx, next) => {
     // 异步读取IO 需要await
     await ctx.render('index', {

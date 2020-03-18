@@ -1,0 +1,10 @@
+node_modules
+
+# Logs
+logs
+*.log
+
+# 不提交本地上传的图片
+uploadFiles
+
+.idea
